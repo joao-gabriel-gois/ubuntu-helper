@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # To run all updates and upgrades directly generating temproary logs
 # Script created by João Gabriel (github.com/joao-gabriel-gois)
+# If there is any non-expected output, you should check exceptions in /tmp/.update-errors.log
 
 echo _
 echo '_' >> /tmp/.update-errors.log
