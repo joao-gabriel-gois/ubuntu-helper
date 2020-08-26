@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# To run all updates and upgrades directly generating temproary logs
+# Script created by João Gabriel (github.com/joao-gabriel-gois)
+
+echo _
+echo '_' >> /tmp/.update-errors.log
+echo $(date '+%Y-%m-%d_%H:%M') >> /tmp/.update-errors.log
+echo Updates running on $(date '+%d-%m-%Y') at $(date '+%H:%M') && echo
+echo '_' >> /tmp/.update-errors.log
+sudo apt update 2>> /tmp/.update-errors.log && printf '\nupdate done\n\n' && \
+sudo apt upgrade -y 2>> /tmp/.update-errors.log && printf '\nupgrade done\n\n' && \
+sudo apt autoremove -y 2>> /tmp/.update-errors.log && printf '\nautoremove done\n\n' && \
+sudo apt dist-upgrade 2>> /tmp/.update-errors.log && printf '\ndist-upgrade done\n\nstarting snap update checking...\n' && \
+sudo snap refresh 2>> /tmp/.update-errors.log && \
+printf 'All tries or catches finished. Ending script\n\n' >> /tmp/.update-errors.log && \
+printf '\nAll tries or catches finished. Ending script\n'
+
