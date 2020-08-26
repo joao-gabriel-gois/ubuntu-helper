@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import re
+from subprocess import run
 import os
 
 
 def create_raw_blame_file_and_analyze(analyze):
-    os.system('sudo systemd-analyze blame > /tmp/.blame.txt')
+    run('sudo systemd-analyze blame > /tmp/.blame.txt')
 
     file = open('/tmp/.blame.txt', 'r')
 
@@ -26,6 +27,7 @@ def print_perfomance_total(file):
         raw_one_item_in_string_number_list = re.findall(
             "\d+\.\d+|\d+[m]", str(line)
         )
+        
         for number_in_string in raw_one_item_in_string_number_list:
             dot_char_index = number_in_string.find('.')
             m_char_index = number_in_string.find('m')

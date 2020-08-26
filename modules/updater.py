@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-from subprocess import Popen
+from subprocess import run
 
 
-def run_shell():
-    Popen(['/bin/sh', '-c', 'shell-script/updater'])
+def run_update_shell(path):
+    run(['/bin/sh', '-c', path])
 
 
 if __name__ == '__main__':
-    run_shell()
+    run_update_shell()
