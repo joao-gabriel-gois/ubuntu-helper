@@ -53,9 +53,9 @@ def print_perfomance_total(file):
     print(f'This time your system took {time} to boot')
 
 
-def main():
+def calculate():
     create_raw_blame_file_and_analyze(print_perfomance_total)
 
 
 if __name__ == '__main__':
-    main()
+    calculate()

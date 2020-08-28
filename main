@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from modules.boot_performance_total import main
+from modules.boot_performance_total import calculate
 from modules.shell_script_launcher import run_shell_script
 
 
@@ -18,7 +18,7 @@ if __name__ == '__main__':
         run_shell_script('shell-script/updater')
     elif command == '2':
         print('Calculating...')
-        main()
+        calculate()
     elif command == '0':
         print('Exiting...')
         exit()
