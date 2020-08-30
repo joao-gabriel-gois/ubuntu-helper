@@ -1,22 +1,21 @@
+#!/usr/bin/env python3
 class colors:
-    PU = '\033[95m'
-    BL = '\033[94m'
+    NC = '\033[90m'
+    RE = '\033[91m'
     GR = '\033[92m'
     YE = '\033[93m'
-    RE = '\033[91m'
-    END = '\033[0m'
+    PU = '\033[94m'
+    PI = '\033[95m'
+    BL = '\033[96m'
+    END = '\033[m'
     BLD = '\033[1m'
     UNDLN = '\033[4m'
 
 
 if __name__ == "__main__":
+    print('\nCheck all possibilites that this color class has:\n')
     c = colors()
-    print(
-      f'{c.PU}  test {c.END}\n',
-      f'{c.BL} test {c.END}\n',
-      f'{c.GR} test {c.END}\n',
-      f'{c.YE} test {c.END}\n',
-      f'{c.RE} test {c.END}\n',
-      f'{c.PU}{c.BLD} test {c.END}\n',
-      f'{c.PU}{c.UNDLN} test {c.END}\n',
-    )
+    for i in range(0, 7):
+        print(f'\033[9{i}mtest{c.END}')
+    print(f'\n{c.BL}{c.BLD}test{c.END}')
+    print(f'{c.PI}{c.UNDLN}test{c.END}')
