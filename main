@@ -15,6 +15,11 @@ if __name__ == '__main__':
 
     if command == '1':
         print('Starting shell script...')
+        print(
+            '\nYou can find logs for update',
+            '\033[91merrors\033[m in \033[94m',
+            '/tmp/.update-errors.log\033[m'
+        )
         run_shell_script('shell-script/updater')
     elif command == '2':
         print('Calculating...')
