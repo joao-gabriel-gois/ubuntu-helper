@@ -7,12 +7,76 @@ echo _
 echo '_' >> /tmp/.update-errors.log
 echo $(date '+%Y-%m-%d_%H:%M') >> /tmp/.update-errors.log
 echo Updates running on $(date '+%d-%m-%Y') at $(date '+%H:%M') && echo
-echo '_' >> /tmp/.update-errors.log
-sudo apt update 2>> /tmp/.update-errors.log && printf '\nupdate done\n\n' && \
-sudo apt upgrade -y 2>> /tmp/.update-errors.log && printf '\nupgrade done\n\n' && \
-sudo apt autoremove -y 2>> /tmp/.update-errors.log && printf '\nautoremove done\n\n' && \
-sudo apt dist-upgrade 2>> /tmp/.update-errors.log && printf '\ndist-upgrade done\n\nstarting snap update checking...\n' && \
-sudo snap refresh 2>> /tmp/.update-errors.log && \
-printf 'All tries or catches finished. Ending script\n\n' >> /tmp/.update-errors.log && \
-printf '\nAll tries or catches finished. Ending script\n'
 
+echo '_' >> /tmp/.update-errors.log
+echo '_APT UPDATE LOGS_' >> /tmp/.update-errors.log
+sudo apt update 2>> /tmp/.update-errors.log
+
+if [ "$?" != "0" ]; then
+  echo 'Update has failed, please check logs at /tmp/.update-errors.log, and / or run this script again'
+  exit 1
+fi
+
+printf '\nupdate done\n\n'
+
+echo '_' >> /tmp/.update-errors.log
+echo '_APT UPGRADE LOGS_' >> /tmp/.update-errors.log
+sudo apt upgrade -y 2>> /tmp/.update-errors.log
+
+if [ "$?" != "0" ]; then
+  echo 'Upgrade has failed, please check logs at /tmp/.update-errors.log, and run this script again'
+  exit 1
+fi
+
+printf '\nupgrade done\n\n'
+
+echo '_' >> /tmp/.update-errors.log
+echo '_APT AUTOREMOVE LOGS_' >> /tmp/.update-errors.log
+sudo apt autoremove -y 2>> /tmp/.update-errors.log
+
+if [ "$?" != "0" ]; then
+  echo 'Autoremove has failed, please check logs at /tmp/.update-errors.log, and run this script again'
+  exit 1
+fi
+
+printf '\nautoremove done\n\n'
+
+echo '_' >> /tmp/.update-errors.log
+echo '_APT DIST-UPGRADE LOGS_' >> /tmp/.update-errors.log
+sudo apt full-upgrade 2>> /tmp/.update-errors.log
+
+if [ "$?" != "0" ]; then
+  echo 'full-upgrade has failed, please check logs at /tmp/.update-errors.log, and run this script again'
+  exit 1
+fi
+
+printf '\nfull-upgrade done\n\nstarting snap update checking...\n'
+
+echo '_' >> /tmp/.update-errors.log
+echo '_SNAP REFRESH LOGS_' >> /tmp/.update-errors.log
+sudo snap refresh 2>> /tmp/.update-errors.log && \
+
+if [ "$?" != "0" ]; then
+  echo 'Snap refresh has failed, please check logs at /tmp/.update-errors.log, and run this script again'
+  exit 1
+fi
+
+printf '\nAll tries or catches finished. All process happpened without no errors. 
+Update network failure will not point as error to break this flow but you can find it in logs.
+\nEnding script\n\n'
+
+read -p "All went fine, want to remove logs? [y/N] " -n 1 -r
+echo
+
+if [[ $REPLY =~ ^[Yy]$ ]];
+  then
+    rm -f /tmp/.update-errors.log
+    echo "Logs were removed. Bye!"
+    exit 0
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    echo 'Ok. This log will be available until your next boot. Bye!'
+    exit 0
+  else
+    echo 'Could not understand you answer. Will consider this as a No. Bye'
+    exit 0
+fi
